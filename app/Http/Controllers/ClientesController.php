@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Exception;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ClientesController extends Controller
 {
@@ -175,22 +176,28 @@ class ClientesController extends Controller
     {
 
         $cnpjFormat = preg_replace("/[^0-9]/", "", $cnpj);
-        $client = new Client();
-        $url = "https://brasilapi.com.br/api/cnpj/v1/$cnpjFormat";
 
         try {
 
-            $response = $client->request('GET', $url);
-            $data = json_decode($response->getBody());
-            return json_encode([
-                'error' => false,
-                'message' => $data,
-            ]);
+            $response = Http::get("https://brasilapi.com.br/api/cnpj/v1/$cnpjFormat")->json();
+
+            if(isset($response['type'])){
+                return json_encode([
+                    'error' => true,
+                    'message' => $response['message'],
+                ]);
+            } else {
+                return json_encode([
+                    'error' => false,
+                    'message' => $response,
+                ]);
+            }
+
 
         } catch (Exception $e) {
             return json_encode([
                 'error' => true,
-                'message' => 'CNPJ inválido',
+                'message' => $response['message'],
             ]);
             
         }
@@ -200,16 +207,12 @@ class ClientesController extends Controller
     public function validateUF($estado)
     {
 
-        $client = new Client();
-        $url = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
-
         try {
 
-            $response = $client->request('GET', $url);
-            $data = json_decode($response->getBody());
-
-            foreach($data as $uf){
-                if($uf->sigla == strtoupper($estado)){
+            $response = Http::get("https://servicodados.ibge.gov.br/api/v1/localidades/estados")->json();
+            
+            foreach($response as $uf){
+                if($uf['sigla'] == strtoupper($estado)){
                     return json_encode([
                         'error' => false,
                         'message' => 'UF válida!',
