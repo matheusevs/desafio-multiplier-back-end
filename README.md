@@ -1,64 +1,235 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Instalação
 
-## About Laravel
+Clonar o projeto
+```
+git clone https://github.com/matheusevs/desafio-multiplier-back-end.git
+```
+Entrar no projeto
+```
+cd desafio-multiplier-back-end/
+```
+Criar os arquivos .env
+```
+cp .env.example .env
+```
+Instalação dos pacotes do composer
+```
+composer install
+```
+Criação da key do laravel
+```
+php artisan key:generate
+```
+Criação do banco de dados
+```
+php artisan migrate
+```
+Criação dos dados para população do ambiente
+```
+php artisan db:seed --class=ClientesTableSeeder
+```
+Rodar comando para inicialização do servidor
+```
+php artisan serve
+```
+Após rodar todos os comandos, acesse a url [127.0.0.1:8000](http://127.0.0.1:8000) para ter acesso a aplicação
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Documentação da API
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Esta documentação descreve as rotas e endpoints da API do projeto.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Segurança da API
 
-## Learning Laravel
+- Todas as rotas da API do projeto requerem um token CSRF (Cross-Site Request Forgery) para autenticação. O token CSRF é uma medida de segurança para proteger contra ataques de falsificação de solicitação entre sites. Certifique-se de incluir o token CSRF válido em todas as suas solicitações para as rotas da API.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Exemplo de uso do token CSRF em uma solicitação:**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```js
+{
+    headers: {
+        'X-CSRF-TOKEN': form._token
+    }
+}
+```
 
-## Laravel Sponsors
+## Rotas
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Listar Clientes
 
-### Premium Partners
+- **Endpoint:** `/cliente`
+- **Método:** GET
+- **Descrição:** Esta rota lista todos os clientes cadastrados no sistema.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+**Exemplo de Resposta de Sucesso:**
 
-## Contributing
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "nomeFantasia": "Empresa A",
+            "cnpj": "00.000.000/0001-01",
+            "endereco": "Rua A, 123",
+            "cidade": "Cidade A",
+            "estado": "UF",
+            "pais": "Brasil",
+            "telefone": "(11) 1234-5678",
+            "email": "empresa@example.com",
+            "areaAtuacao": "Tecnologia",
+            "quadroSocietario": "Sócio A, Sócio B"
+        },
+        {
+            "id": 2,
+            "nomeFantasia": "Empresa B",
+            "cnpj": "00.000.000/0001-02",
+            "endereco": "Rua B, 456",
+            "cidade": "Cidade B",
+            "estado": "UF",
+            "pais": "Brasil",
+            "telefone": "(22) 9876-5432",
+            "email": "contato@empresaB.com",
+            "areaAtuacao": "Serviços",
+            "quadroSocietario": "Sócio C"
+        }
+    ]
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Criar Cliente
 
-## Code of Conduct
+- **Endpoint:** `/cliente/create`
+- **Método:** POST
+- **Descrição:** Esta rota permite criar um novo cliente.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Parâmetros de Requisição:**
 
-## Security Vulnerabilities
+- `nomeFantasia` (string, obrigatório): Nome fantasia da empresa.
+- `cnpj` (string, obrigatório): CNPJ da empresa no formato "00.000.000/0001-01".
+- `endereco` (string, obrigatório): Endereço da empresa.
+- `cidade` (string, obrigatório): Cidade da empresa.
+- `estado` (string, obrigatório): UF da empresa (ex: "SP").
+- `pais` (string, obrigatório): País da empresa.
+- `telefone` (string, obrigatório): Número de telefone da empresa no formato "(11) 1234-5678".
+- `email` (string, obrigatório): Endereço de e-mail da empresa.
+- `areaAtuacao` (string, obrigatório): Área de atuação da empresa.
+- `quadroSocietario` (string): Informações sobre o quadro societário da empresa.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Exemplo de Requisição:**
 
-## License
+```json
+{
+    "nomeFantasia": "Nova Empresa",
+    "cnpj": "00.000.000/0001-03",
+    "endereco": "Rua C, 789",
+    "cidade": "Cidade C",
+    "estado": "UF",
+    "pais": "Brasil",
+    "telefone": "(33) 5555-5555",
+    "email": "nova@empresa.com",
+    "areaAtuacao": "Comércio",
+    "quadroSocietario": "Sócio D"
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Exemplo de Resposta de Sucesso:**
+
+```json
+{
+    "error": false,
+    "message": "Cliente criado"
+}
+```
+
+**Exemplo de Resposta de Erro (CNPJ inválido):**
+
+```json
+{
+    "error": true,
+    "message": "CNPJ inválido"
+}
+```
+
+### Atualizar Cliente
+
+- **Endpoint:** `/cliente/edit/{id}`
+- **Método:** PUT
+- **Descrição:** Esta rota permite atualizar as informações de um cliente existente com base em seu ID.
+
+**Parâmetros de Requisição:**
+
+- `id ` (integer, obrigatório): ID do cliente a ser editado.
+
+**Exemplo de Requisição:**
+
+```json
+{
+    "id": 1,
+    "nomeFantasia": "Empresa Editada",
+    // Outros parâmetros editados
+}
+```
+
+**Exemplo de Resposta de Sucesso:**
+
+```json
+{
+    "error": false,
+    "message": "Cliente editado com sucesso"
+}
+```
+
+**Exemplo de Resposta de Erro (CNPJ inválido):**
+
+```json
+{
+    "error": true,
+    "message": "CNPJ inválido"
+}
+```
+
+**Exemplo de Resposta de Erro (ID de cliente não informado):**
+
+```json
+{
+    "error": true,
+    "message": "ID do cliente não informado"
+}
+```
+
+### Deletar Cliente
+
+- **Endpoint:** `/cliente/delete/{id}`
+- **Método:** DELETE
+- **Descrição:** Esta rota permite excluir um cliente existente com base em seu ID.
+
+**Parâmetros de Requisição:**
+
+- `id ` (integer, obrigatório): ID do cliente a ser excluído.
+
+**Exemplo de Requisição:**
+
+```json
+{
+    "id": 1
+}
+```
+
+**Exemplo de Resposta de Sucesso:**
+
+```json
+{
+    "error": false,
+    "message": "Cliente deletado com sucesso"
+}
+```
+
+**Exemplo de Resposta de Erro (ID de cliente não informado):**
+
+```json
+{
+    "error": true,
+    "message": "ID do cliente não informado"
+}
+```
