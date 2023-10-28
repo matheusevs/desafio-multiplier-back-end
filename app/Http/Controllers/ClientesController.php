@@ -80,7 +80,9 @@ class ClientesController extends Controller
         try{
 
             if (!$id) {
-                return ['error' => true, 'message' => "ID do cliente não informado"];
+                return response()->json([
+                    'message' => 'ID do cliente não informado!',
+                ], 403);
             }
 
             $cliente = Clientes::FindOrFail($id);
@@ -104,7 +106,9 @@ class ClientesController extends Controller
         try{
             
             if (!$request->id) {
-                return ['error' => true, 'message' => "ID do cliente não informado!"];
+                return response()->json([
+                    'message' => 'ID do cliente não informado!',
+                ], 403);
             }
 
             $cnpj = $this->validateCnpj($request->cnpj);
@@ -146,7 +150,9 @@ class ClientesController extends Controller
         try{
 
             if (!$id) {
-                return ['error' => true, 'message' => "ID do cliente não informado!"];
+                return response()->json([
+                    'message' => 'ID do cliente não informado!',
+                ], 403);
             }
             
             Clientes::FindOrFail($id)->delete();
