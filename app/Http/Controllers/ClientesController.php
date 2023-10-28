@@ -45,34 +45,30 @@ class ClientesController extends Controller
             $cnpjDecode = json_decode($cnpj, true);
             if($cnpjDecode['error']){
                 return response()->json([
-                    'error' => true,
                     'message' => $cnpjDecode['message'],
-                ]);
+                ], 404);
             }
 
             $estado = $this->validateUF($cliente['estado']);
             $estadoDecode = json_decode($estado, true);
             if($estadoDecode['error']){
                 return response()->json([
-                    'error' => true,
                     'message' => $estadoDecode['message'],
-                ]);
+                ], 404);
             }
 
             $cliente->save();
             Cache::forget('clientes_all');
 
             return response()->json([
-                'error' => false,
                 'message' => 'Cliente criado'
             ], 200);
 
         } catch (Exception $e){
 
             return response()->json([
-                'error' => true,
                 'message' => $e->getMessage(),
-            ]);
+            ], 422);
 
         }
 
@@ -90,16 +86,14 @@ class ClientesController extends Controller
             $cliente = Clientes::FindOrFail($id);
 
             return response()->json([
-                'error' => false,
                 'dados' => $cliente
-            ]);
+            ], 200);
 
         } catch(Exception $e) {
 
             return response()->json([
-                'error' => false,
                 'message' => $e->getMessage(),
-            ]);
+            ], 422);
         }
 
     }
@@ -159,16 +153,14 @@ class ClientesController extends Controller
             Cache::forget('clientes_all');
 
             return response()->json([
-                'error' => false,
                 'dados' => 'Cliente deletado com sucesso',
-            ]);
+            ], 200);
 
         } catch(Exception $e) {
 
             return response()->json([
-                'error' => true,
                 'message' => $e->getMessage(),
-            ]);
+            ], 422);
         }
 
     }

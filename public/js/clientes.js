@@ -77,28 +77,21 @@ $(function () {
             contentType: 'application/json',
             success: res => {
 
-                if(!res.error){
-                    
-                    $("#fechar").click();
-                    toastr.success(res.message,'Sucesso!');
-                    tabela.ajax.reload();
+                $("#fechar").click();
+                toastr.success(res.message,'Sucesso!');
+                tabela.ajax.reload();
 
-                    
-                } else {
-
-                    toastr.error(res.message,'Erro!');
-
-                }
-
-            }, 
+            },
             error: error => {
 
-                console.log(error.responseJSON.errors);
-
-                const primeiraChave = Object.keys(error.responseJSON.errors)[0];
-                const mensagem = error.responseJSON.errors[primeiraChave];
-
-                toastr.error(mensagem,'Erro!');
+                if(error.responseJSON.errors){
+                    const primeiraChave = Object.keys(error.responseJSON.errors)[0];
+                    const mensagem = error.responseJSON.errors[primeiraChave];
+    
+                    toastr.error(mensagem,'Erro!');
+                } else {
+                    toastr.error(error.responseJSON.message,'Erro!');
+                }
 
             }
 
@@ -216,17 +209,22 @@ $(function () {
             contentType: 'application/json',
             success: res => {
 
-                if(!res.error){
+                toastr.success(res.message,'Sucesso!');
+                $('#confirm-delete').modal('hide');
+                tabela.ajax.reload();
 
-                    toastr.success(res.message,'Sucesso!');
-                    $('#confirm-delete').modal('hide');
-                    tabela.ajax.reload();
+            },
+            error: error => {
 
+                if(error.responseJSON.errors){
+                    const primeiraChave = Object.keys(error.responseJSON.errors)[0];
+                    const mensagem = error.responseJSON.errors[primeiraChave];
+    
+                    toastr.error(mensagem,'Erro!');
                 } else {
-
-                    toastr.error(res.message,'Erro!');
-
+                    toastr.error(error.responseJSON.message,'Erro!');
                 }
+
             }
 
         });
