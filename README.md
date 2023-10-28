@@ -137,7 +137,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": false,
+    "status": 200,
     "message": "Cliente criado"
 }
 ```
@@ -146,7 +146,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": true,
+    "status": 404,
     "message": "CNPJ inválido"
 }
 ```
@@ -175,7 +175,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": false,
+    "status": 200,
     "message": "Cliente editado com sucesso"
 }
 ```
@@ -184,7 +184,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": true,
+    "status": 404,
     "message": "CNPJ inválido"
 }
 ```
@@ -220,7 +220,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": false,
+    "status": 200,
     "message": "Cliente deletado com sucesso"
 }
 ```
@@ -229,7 +229,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": true,
+    "status": 403,
     "message": "ID do cliente não informado"
 }
 ```
