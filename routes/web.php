@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function(){
-    return redirect('/home');
+Auth::routes(['verify' => true]);
+
+Route::middleware(['auth','verified'])->group(function () {
+    
+    Route::get('/', function(){
+        return redirect('/home');
+    });
+
+    Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+    Route::get('/cliente', 'App\Http\Controllers\ClientesController@index');
+    Route::put('/cliente/edit/{id}', 'App\Http\Controllers\ClientesController@update');
+    Route::get('/cliente/edit/{id}', 'App\Http\Controllers\ClientesController@edit');
+    Route::post('/cliente/create', 'App\Http\Controllers\ClientesController@store');
+    Route::delete('/cliente/delete/{id}', 'App\Http\Controllers\ClientesController@destroy');
+
 });
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-Route::get('/cliente', 'App\Http\Controllers\ClientesController@index');
-Route::put('/cliente/edit/{id}', 'App\Http\Controllers\ClientesController@update');
-Route::get('/cliente/edit/{id}', 'App\Http\Controllers\ClientesController@edit');
-Route::post('/cliente/create', 'App\Http\Controllers\ClientesController@store');
-Route::delete('/cliente/delete/{id}', 'App\Http\Controllers\ClientesController@destroy');
