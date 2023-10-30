@@ -43,18 +43,9 @@ class ClientesController extends Controller
             }
 
             $cnpj = $this->validateCnpj($cliente['cnpj']);
-            $cnpjDecode = json_decode($cnpj, true);
-            if($cnpjDecode['error']){
+            if($cnpj['error']){
                 return response()->json([
-                    'message' => $cnpjDecode['message'],
-                ], 404);
-            }
-
-            $estado = $this->validateUF($cliente['estado']);
-            $estadoDecode = json_decode($estado, true);
-            if($estadoDecode['error']){
-                return response()->json([
-                    'message' => $estadoDecode['message'],
+                    'message' => $cnpj['message'],
                 ], 404);
             }
 
@@ -113,18 +104,9 @@ class ClientesController extends Controller
             }
 
             $cnpj = $this->validateCnpj($request->cnpj);
-            $cnpjDecode = json_decode($cnpj, true);
-            if($cnpjDecode['error']){
+            if($cnpj['error']){
                 return response()->json([
-                    'message' => $cnpjDecode['message'],
-                ], 404);
-            }
-
-            $estado = $this->validateUF($request->estado);
-            $estadoDecode = json_decode($estado, true);
-            if($estadoDecode['error']){
-                return response()->json([
-                    'message' => $estadoDecode['message'],
+                    'message' => $cnpj['message'],
                 ], 404);
             }
 
@@ -182,54 +164,23 @@ class ClientesController extends Controller
             $response = Http::get("https://brasilapi.com.br/api/cnpj/v1/$cnpjFormat")->json();
 
             if(isset($response['type'])){
-                return json_encode([
+                return [
                     'error' => true,
                     'message' => $response['message'],
-                ]);
+                ];
             } else {
-                return json_encode([
+                return [
                     'error' => false,
                     'message' => $response,
-                ]);
+                ];
             }
 
 
         } catch (Exception $e) {
-            return json_encode([
+            return [
                 'error' => true,
                 'message' => $response['message'],
-            ]);
-            
-        }
-
-    }
-
-    public function validateUF($estado)
-    {
-
-        try {
-
-            $response = Http::get("https://servicodados.ibge.gov.br/api/v1/localidades/estados")->json();
-            
-            foreach($response as $uf){
-                if($uf['sigla'] == strtoupper($estado)){
-                    return json_encode([
-                        'error' => false,
-                        'message' => 'UF válida!',
-                    ]);
-                }
-            }
-
-            return json_encode([
-                'error' => true,
-                'message' => 'UF inválida!',
-            ]);
-
-        } catch (Exception $e) {
-            return json_encode([
-                'error' => true,
-                'message' => $e->getMessage(),
-            ]);
+            ];
             
         }
 
