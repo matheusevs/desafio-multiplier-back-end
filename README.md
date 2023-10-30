@@ -24,7 +24,7 @@ docker compose run --rm multiplier php artisan migrate
 ```
 Criação dos dados para população do ambiente via docker
 ```
-ocker compose run --rm multiplier php artisan db:seed --class=ClientesTableSeeder
+docker compose run --rm multiplier php artisan db:seed --class=ClientesTableSeeder
 ```
 Após rodar todos os comandos, acesse a url [localhost:81](http://localhost:81) para ter acesso a aplicação
 
