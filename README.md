@@ -18,7 +18,7 @@ Rodar comando para inicialização do docker
 ```
 docker compose up --build
 ```
-Criação do banco de dados via docker
+Abra outro terminal e rode o comando para a criação do banco de dados via docker
 ```
 docker compose run --rm multiplier php artisan migrate
 ```
