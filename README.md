@@ -14,27 +14,19 @@ Criar os arquivos .env
 ```
 cp .env.example .env
 ```
-Instalação dos pacotes do composer
+Rodar comando para inicialização do docker
 ```
-composer install
+docker compose up --build
 ```
-Criação da key do laravel
+Criação do banco de dados via docker
 ```
-php artisan key:generate
+docker compose run --rm multiplier php artisan migrate
 ```
-Criação do banco de dados
+Criação dos dados para população do ambiente via docker
 ```
-php artisan migrate
+ocker compose run --rm multiplier php artisan db:seed --class=ClientesTableSeeder
 ```
-Criação dos dados para população do ambiente
-```
-php artisan db:seed --class=ClientesTableSeeder
-```
-Rodar comando para inicialização do servidor
-```
-php artisan serve
-```
-Após rodar todos os comandos, acesse a url [127.0.0.1:8000](http://127.0.0.1:8000) para ter acesso a aplicação
+Após rodar todos os comandos, acesse a url [localhost:81](http://localhost:81) para ter acesso a aplicação
 
 # Documentação da API
 
