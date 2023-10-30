@@ -28,6 +28,11 @@ docker compose run --rm multiplier php artisan db:seed --class=ClientesTableSeed
 ```
 Após rodar todos os comandos, acesse a url [localhost:81](http://localhost:81) para ter acesso a aplicação
 
+Para a realização de testes unitários das rotas criadas, execute o comando:
+```
+docker compose exec multiplier ./vendor/bin/phpunit
+```
+
 # Documentação da API
 
 Esta documentação descreve as rotas e endpoints da API do projeto.
