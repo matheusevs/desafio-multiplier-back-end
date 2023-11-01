@@ -190,7 +190,7 @@ Esta documentação descreve as rotas e endpoints da API do projeto.
 
 ```json
 {
-    "error": true,
+    "status": 403,
     "message": "ID do cliente não informado"
 }
 ```
