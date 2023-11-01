@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clientes;
-use GuzzleHttp\Client;
 use App\Http\Requests\ClientesRequest;
 use Illuminate\Support\Facades\Cache;
 use Exception;
@@ -16,17 +15,28 @@ class ClientesController extends Controller
     public function index()
     {
 
+        if(!auth()->check()){
+            return response()->json([
+                'message' => 'Usuário não autorizado.'
+            ], 403);
+        }
+
         $clientes = Cache::remember('clientes_all', 60, function () {
             return Clientes::all();
         });
 
         return response()->json(['data' => $clientes]);
 
-
     }
 
     public function store(ClientesRequest $request)
     {
+
+        if(!auth()->check()){
+            return response()->json([
+                'message' => 'Usuário não autorizado.'
+            ], 403);
+        }
         
         try{
 
@@ -69,6 +79,12 @@ class ClientesController extends Controller
     public function edit($id)
     {
 
+        if(!auth()->check()){
+            return response()->json([
+                'message' => 'Usuário não autorizado.'
+            ], 403);
+        }
+
         try{
 
             if (!$id) {
@@ -94,6 +110,12 @@ class ClientesController extends Controller
 
     public function update(ClientesRequest $request)
     {
+
+        if(!auth()->check()){
+            return response()->json([
+                'message' => 'Usuário não autorizado.'
+            ], 403);
+        }
 
         try{
             
@@ -129,6 +151,12 @@ class ClientesController extends Controller
 
     public function destroy($id)
     {
+
+        if(!auth()->check()){
+            return response()->json([
+                'message' => 'Usuário não autorizado.'
+            ], 403);
+        }
         
         try{
 
@@ -156,6 +184,12 @@ class ClientesController extends Controller
 
     public function validateCnpj($cnpj)
     {
+
+        if(!auth()->check()){
+            return response()->json([
+                'message' => 'Usuário não autorizado.'
+            ], 403);
+        }
 
         $cnpjFormat = preg_replace("/[^0-9]/", "", $cnpj);
 
