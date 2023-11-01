@@ -5,11 +5,14 @@ $(function () {
     let inputTelefone = document.getElementById('telefone');
     let inputTelefoneEditar = document.getElementById('telefoneEditar');
 
-
     let tabela = $('#cliente-table').DataTable({
         ajax: {
-            url: '/cliente'
-        }, 
+            type: "get",
+            url: '/api/cliente',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+        },
         columns: [
             {data: 'id'},
             {data: 'nomeFantasia'},
@@ -68,7 +71,7 @@ $(function () {
     
         $.ajax({
             type: "post",
-            url: "/cliente/create",
+            url: "/api/cliente/create",
             data: data,
             headers: {
                 'X-CSRF-TOKEN': form._token
@@ -105,7 +108,7 @@ $(function () {
 
         $.ajax({
             type: "get",
-            url: `/cliente/edit/${id}`,
+            url: `/api/cliente/edit/${id}`,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -150,7 +153,7 @@ $(function () {
     
         $.ajax({
             type: "put",
-            url: `/cliente/edit/${id}`,
+            url: `/api/cliente/edit/${id}`,
             headers: {
                 'X-CSRF-TOKEN': form._token
             },
@@ -201,7 +204,7 @@ $(function () {
 
         $.ajax({
             type: "delete",
-            url: `/cliente/delete/${id}`,
+            url: `/api/cliente/delete/${id}`,
             headers: {
                 'X-CSRF-TOKEN': form._token
             },
